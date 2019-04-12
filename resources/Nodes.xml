@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<nodes>
+    <node>
+        <code>endNode</code>
+        <message>Здесь может быть ваша реклама</message>
+    </node>
+    <node>
+        <code>successNode</code>
+        <message>Всегда пожалуйста</message>
+    </node>
+    <!--<node>-->
+        <!--<code>startNode</code>-->
+        <!--<nextNode>node00</nextNode>-->
+        <!--<message>Ваш компьютер не включается? Я помогу Вам!</message>-->
+    <!--</node>-->
+    <node>
+        <code>startNode</code>
+        <message>Ваш компьютер не включается? Я помогу Вам!
+            Давайте начнем с простого - блок питания компьюетра включается?</message>
+        <variants>
+            <variant>
+                <value>Да</value>
+                <target>node01</target>
+            </variant>
+            <variant>
+                <value>Нет</value>
+                <target>node02</target>
+            </variant>
+        </variants>
+    </node>
+    <node>
+        <code>node01</code>
+        <message>Монитор показывает что-нибудь?</message>
+        <variants>
+            <variant>
+                <value>Да</value>
+                <target>endNode</target>
+            </variant>
+            <variant>
+                <value>Нет</value>
+                <target>node06</target>
+            </variant>
+        </variants>
+    </node>
+        <node>
+        <code>node02</code>
+        <message>Вилка питания включена в розетку?</message>
+        <variants>
+            <variant>
+                <value>Да</value>
+                <target>node03</target>
+            </variant>
+            <variant>
+                <value>Нет</value>
+                <target>node04</target>
+            </variant>
+        </variants>
+    </node>
+    <node>
+        <code>node03</code>
+        <message>БП имеет переключатель напряжения?</message>
+        <variants>
+            <variant>
+                <value>Да</value>
+                <target>node05</target>
+            </variant>
+            <variant>
+                <value>Нет</value>
+                <target>end</target>
+            </variant>
+        </variants>
+    </node>
+    <node>
+        <code>node04</code>
+        <message>Включите вилку в розетку. Теперь работает?</message>
+        <variants>
+            <variant>
+                <value>Да</value>
+                <target>successNode</target>
+            </variant>
+            <variant>
+                <value>Нет</value>
+                <target>end</target>
+            </variant>
+        </variants>
+    </node>
+    <node>
+        <code>node05</code>
+        <message>Выберите правильное напряжение на блоке питания. Теперь работает?</message>
+        <variants>
+            <variant>
+                <value>Да</value>
+                <target>successNode</target>
+            </variant>
+            <variant>
+                <value>Нет</value>
+                <target>end</target>
+            </variant>
+        </variants>
+    </node>
+    <node>
+        <code>node06</code>
+        <message>Индикатор на мониторе светится непрерывно?</message>
+        <variants>
+            <variant>
+                <value>Да</value>
+                <target>endNode</target>
+            </variant>
+            <variant>
+                <value>Нет</value>
+                <target>endNode</target>
+            </variant>
+        </variants>
+    </node>
+    <node>
+        <code>node07</code>
+        <type>end</type>
+        <nextNode>endNode</nextNode>
+        <message>Проверить питание монитора, убедиться в надежности контакта кабеля и разъема в мониторе</message>
+    </node>
+</nodes>

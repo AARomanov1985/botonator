@@ -1,0 +1,2 @@
+#!/bin/bash
+tail -F /home/alexandr/telegrambots_sysadmin/log/app.log

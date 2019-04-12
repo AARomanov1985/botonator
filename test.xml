@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<nodes>
+        <node>
+            <code>code</code>
+            <message>message</message>
+            <variants>
+                <variant>
+                    <value>value</value>
+                    <target>target</target>
+                </variant>
+            </variants>
+        </node>
+</nodes>

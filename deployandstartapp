@@ -1,0 +1,5 @@
+#!/bin/bash
+rm -rf bin
+mvn clean install
+rm -rf target
+java -jar bin/telegrambots-* &
