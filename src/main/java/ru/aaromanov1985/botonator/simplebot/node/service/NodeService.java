@@ -4,6 +4,8 @@ import ru.aaromanov1985.botonator.simplebot.node.Node;
 
 public interface NodeService {
 
+    void buildNodels(String path);
+
     Node getStartNode();
 
     Node getEndNode();

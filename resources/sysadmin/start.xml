@@ -2,11 +2,11 @@
 <nodes>
     <node>
         <code>endNode</code>
-        <message>Здесь может быть ваша реклама</message>
+        <message>Commerce</message>
     </node>
     <node>
         <code>successNode</code>
-        <message>Всегда пожалуйста</message>
+        <message>Success</message>
     </node>
     <!--<node>-->
         <!--<code>startNode</code>-->
@@ -15,8 +15,7 @@
     <!--</node>-->
     <node>
         <code>startNode</code>
-        <message>Ваш компьютер не включается? Я помогу Вам!
-            Давайте начнем с простого - блок питания компьюетра включается?</message>
+        <message>start</message>
         <variants>
             <variant>
                 <value>Да</value>
@@ -30,7 +29,7 @@
     </node>
     <node>
         <code>node01</code>
-        <message>Монитор показывает что-нибудь?</message>
+        <message>Monitor_01</message>
         <variants>
             <variant>
                 <value>Да</value>
@@ -44,7 +43,7 @@
     </node>
         <node>
         <code>node02</code>
-        <message>Вилка питания включена в розетку?</message>
+        <message>Monitor_02</message>
         <variants>
             <variant>
                 <value>Да</value>
@@ -58,7 +57,7 @@
     </node>
     <node>
         <code>node03</code>
-        <message>БП имеет переключатель напряжения?</message>
+        <message>Power_01</message>
         <variants>
             <variant>
                 <value>Да</value>
@@ -72,7 +71,7 @@
     </node>
     <node>
         <code>node04</code>
-        <message>Включите вилку в розетку. Теперь работает?</message>
+        <message>Power_02</message>
         <variants>
             <variant>
                 <value>Да</value>
@@ -86,7 +85,7 @@
     </node>
     <node>
         <code>node05</code>
-        <message>Выберите правильное напряжение на блоке питания. Теперь работает?</message>
+        <message>Power_03</message>
         <variants>
             <variant>
                 <value>Да</value>
@@ -100,7 +99,7 @@
     </node>
     <node>
         <code>node06</code>
-        <message>Индикатор на мониторе светится непрерывно?</message>
+        <message>Monitor_03</message>
         <variants>
             <variant>
                 <value>Да</value>
@@ -116,6 +115,6 @@
         <code>node07</code>
         <type>end</type>
         <nextNode>endNode</nextNode>
-        <message>Проверить питание монитора, убедиться в надежности контакта кабеля и разъема в мониторе</message>
+        <message>Monitor_04</message>
     </node>
 </nodes>
