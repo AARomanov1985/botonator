@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import ru.aaromanov1985.botonator.simplebot.conversation.Conversation;
 
 // TODO
-class ConversationTest {
+class ConversationUnitTest {
 
     private Conversation instance;
 

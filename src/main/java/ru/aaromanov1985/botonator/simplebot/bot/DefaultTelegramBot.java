@@ -45,14 +45,6 @@ public class DefaultTelegramBot extends TelegramLongPollingBot implements Bot{
 
     @Override
     public void execute() {
-        if (testMode) {
-            testMode();
-        } else {
-            normalMode();
-        }
-    }
-
-    private void normalMode() {
         LOG.info("normalMode enabled");
         ApiContextInitializer.init();
         TelegramBotsApi botsApi = new TelegramBotsApi();
@@ -62,36 +54,6 @@ public class DefaultTelegramBot extends TelegramLongPollingBot implements Bot{
         } catch (TelegramApiException e) {
             LOG.error(e.getMessage(), e);
         }
-    }
-
-    private void testMode() {
-        LOG.warn("testMode enabled. Start test");
-        Message message = mock(Message.class);
-        given(message.hasText()).willReturn(true);
-        given(message.getText()).willReturn("/start");
-
-        Update update = mock(Update.class);
-        given(update.hasMessage()).willReturn(true);
-        given(update.getMessage()).willReturn(message);
-
-        onUpdateReceived(update);
-
-        for (int i = 0; i < 10; i++) {
-            given(message.hasText()).willReturn(true);
-            given(message.getText()).willReturn(getRandomYesNo());
-
-            given(update.hasMessage()).willReturn(true);
-            given(update.getMessage()).willReturn(message);
-
-            onUpdateReceived(update);
-        }
-        LOG.warn("testEnd");
-    }
-
-    private String getRandomYesNo() {
-        Random random = new Random();
-        boolean b = random.nextBoolean();
-        return b ? YES : NO;
     }
 
     @Override
