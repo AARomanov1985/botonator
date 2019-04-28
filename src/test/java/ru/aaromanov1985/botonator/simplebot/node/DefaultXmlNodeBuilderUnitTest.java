@@ -11,9 +11,6 @@ class DefaultXmlNodeBuilderUnitTest {
 
     @BeforeEach
     void setUp() {
-        builder.setPath("resources/Nodes.xml");
-        Nodes nodes = builder.buildNodes();
-        // TODO
     }
 
     @Test
