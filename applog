@@ -1,2 +1,2 @@
 #!/bin/bash
-tail -F /home/alexandr/telegrambots_sysadmin/log/app.log
+tail -F /home/alexandr/botonator/log/app.log
