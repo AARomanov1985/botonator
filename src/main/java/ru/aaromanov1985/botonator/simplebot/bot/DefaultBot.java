@@ -13,10 +13,10 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import ru.aaromanov1985.botonator.simplebot.Answer;
+import ru.aaromanov1985.botonator.simplebot.conversation.answer.Answer;
 import ru.aaromanov1985.botonator.simplebot.conversation.Conversation;
 import ru.aaromanov1985.botonator.simplebot.node.Node;
-import ru.aaromanov1985.botonator.simplebot.service.NodeService;
+import ru.aaromanov1985.botonator.simplebot.node.service.NodeService;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
@@ -26,7 +26,7 @@ import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class DefaultBot extends TelegramLongPollingBot {
+public class DefaultBot extends TelegramLongPollingBot implements Bot{
 
     private Logger LOG = LoggerFactory.getLogger(DefaultBot.class);
     private final static String START = "/start";

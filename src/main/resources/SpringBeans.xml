@@ -9,11 +9,11 @@
 
     <context:annotation-config/>
 
-    <bean id="nodeBuilder" class="ru.aaromanov1985.botonator.simplebot.node.DefaultNodeBuilder">
+    <bean id="nodeBuilder" class="ru.aaromanov1985.botonator.simplebot.node.builder.DefaultXmlNodeBuilder">
         <property name="path" value="resources/Nodes.xml"/>
     </bean>
 
-    <bean id="nodeService" class="ru.aaromanov1985.botonator.simplebot.service.DefaultNodeService"/>
+    <bean id="nodeService" class="ru.aaromanov1985.botonator.simplebot.node.service.DefaultNodeService"/>
 
     <bean id="bot" class="ru.aaromanov1985.botonator.simplebot.bot.DefaultBot"/>
 </beans>

@@ -1,12 +1,12 @@
-package ru.aaromanov1985.botonator.simplebot.service;
+package ru.aaromanov1985.botonator.simplebot.node.service;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.aaromanov1985.botonator.simplebot.node.DefaultNodeBuilder;
 import ru.aaromanov1985.botonator.simplebot.node.Node;
 import ru.aaromanov1985.botonator.simplebot.node.Nodes;
 import ru.aaromanov1985.botonator.simplebot.node.Variant;
+import ru.aaromanov1985.botonator.simplebot.node.builder.DefaultXmlNodeBuilder;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
@@ -15,7 +15,7 @@ import java.util.List;
 public class DefaultNodeService implements NodeService {
 
     @Resource
-    private DefaultNodeBuilder nodeBuilder;
+    private DefaultXmlNodeBuilder nodeBuilder;
 
     private Nodes nodes;
 

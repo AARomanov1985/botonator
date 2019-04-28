@@ -1,23 +1,23 @@
-package ru.aaromanov1985.botonator.simplebot.node;
+package ru.aaromanov1985.botonator.simplebot.node.builder;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.aaromanov1985.botonator.simplebot.node.Nodes;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import java.io.*;
 
-public class DefaultNodeBuilder implements NodeBuilder {
+public class DefaultXmlNodeBuilder implements NodeBuilder {
 
-    private static final Logger LOG = LoggerFactory.getLogger(DefaultNodeBuilder.class);
+    private static final Logger LOG = LoggerFactory.getLogger(DefaultXmlNodeBuilder.class);
     private String path;
 
     public Nodes buildNodes() {
         LOG.info("path = {}", path);
         try {
-            JAXBContext context =
-                    JAXBContext.newInstance(Nodes.class);
+            JAXBContext context = JAXBContext.newInstance(Nodes.class);
 
             FileInputStream inputStream = new FileInputStream(path);
 

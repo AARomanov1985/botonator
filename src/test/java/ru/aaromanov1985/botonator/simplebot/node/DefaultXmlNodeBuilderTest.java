@@ -2,11 +2,12 @@ package ru.aaromanov1985.botonator.simplebot.node;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import ru.aaromanov1985.botonator.simplebot.node.builder.DefaultXmlNodeBuilder;
 
 // TODO
-class DefaultNodeBuilderTest {
+class DefaultXmlNodeBuilderTest {
 
-    private DefaultNodeBuilder builder = new DefaultNodeBuilder();
+    private DefaultXmlNodeBuilder builder = new DefaultXmlNodeBuilder();
 
     @BeforeEach
     void setUp() {

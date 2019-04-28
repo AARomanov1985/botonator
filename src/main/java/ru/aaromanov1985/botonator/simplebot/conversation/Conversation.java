@@ -3,10 +3,10 @@ package ru.aaromanov1985.botonator.simplebot.conversation;
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.aaromanov1985.botonator.simplebot.Answer;
+import ru.aaromanov1985.botonator.simplebot.conversation.answer.Answer;
 import ru.aaromanov1985.botonator.simplebot.node.Node;
 import ru.aaromanov1985.botonator.simplebot.node.Variant;
-import ru.aaromanov1985.botonator.simplebot.service.NodeService;
+import ru.aaromanov1985.botonator.simplebot.node.service.NodeService;
 
 import java.util.ArrayList;
 import java.util.List;
