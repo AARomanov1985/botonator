@@ -13,7 +13,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-class DefaultTelegramBotTest {
+class DefaultTelegramBotUnitTest {
 
     @InjectMocks
     private DefaultTelegramBot instance;
