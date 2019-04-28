@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import ru.aaromanov1985.botonator.simplebot.node.builder.DefaultXmlNodeBuilder;
 
 // TODO
-class DefaultXmlNodeBuilderTest {
+class DefaultXmlNodeBuilderUnitTest {
 
     private DefaultXmlNodeBuilder builder = new DefaultXmlNodeBuilder();
 
