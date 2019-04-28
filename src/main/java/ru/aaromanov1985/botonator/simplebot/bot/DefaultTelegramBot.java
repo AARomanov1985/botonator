@@ -1,5 +1,10 @@
 package ru.aaromanov1985.botonator.simplebot.bot;
 
+import javax.annotation.Resource;
+import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -7,10 +12,13 @@ import org.slf4j.LoggerFactory;
 import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
+import org.telegram.telegrambots.meta.api.methods.ParseMode;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.aaromanov1985.botonator.simplebot.conversation.answer.Answer;
@@ -18,26 +26,18 @@ import ru.aaromanov1985.botonator.simplebot.conversation.Conversation;
 import ru.aaromanov1985.botonator.simplebot.node.Node;
 import ru.aaromanov1985.botonator.simplebot.node.service.NodeService;
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.mock;
 
-import javax.annotation.Resource;
-import java.util.*;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
-public class DefaultTelegramBot extends TelegramLongPollingBot implements Bot{
+public class DefaultTelegramBot extends TelegramLongPollingBot implements Bot {
 
     private Logger LOG = LoggerFactory.getLogger(DefaultTelegramBot.class);
     private final static String START = "/start";
     private final static String CANCEL = "/cancel";
-    private final static String YES = "Да";
-    private final static String NO = "Нет";
     private final static String I_DONT_KNOW = "Я ничего не понимаю";
-    private boolean testMode = false;
 
     private String token;
     private String name;
+    private String path;
     private Set<Conversation> conversations = new HashSet<>();
     private ExecutorService executorService = Executors.newCachedThreadPool();
     @Resource
@@ -45,7 +45,8 @@ public class DefaultTelegramBot extends TelegramLongPollingBot implements Bot{
 
     @Override
     public void execute() {
-        LOG.info("normalMode enabled");
+        nodeService.buildNodels(path);
+
         ApiContextInitializer.init();
         TelegramBotsApi botsApi = new TelegramBotsApi();
 
@@ -58,6 +59,8 @@ public class DefaultTelegramBot extends TelegramLongPollingBot implements Bot{
 
     @Override
     public void onUpdateReceived(Update update) {
+        nodeService.buildNodels(path);
+
         LOG.info("request received");
         // We check if the update has a message and the message has text
         if (update.hasMessage() && update.getMessage().hasText()) {
@@ -115,17 +118,29 @@ public class DefaultTelegramBot extends TelegramLongPollingBot implements Bot{
     }
 
     private void sendMessage(Answer answer) {
-        sendMessage(Long.valueOf(answer.getChatId()), answer.getMessage(), getKeyboard(answer));
+        sendMessage(Long.valueOf(answer.getChatId()), answer.getMessage(), getReplyKeyboard(answer));
 
         String nextNode = answer.getNextNode();
 
         if (StringUtils.isNotEmpty(nextNode)) {
             Node node = nodeService.findNodeForCode(nextNode);
-            sendMessage(Long.valueOf(answer.getChatId()), node.getMessage(), getKeyboard(answer));
+            sendMessage(Long.valueOf(answer.getChatId()), node.getMessage(), getReplyKeyboard(answer));
         }
     }
 
-    private ReplyKeyboardMarkup getKeyboard(Answer answer) {
+    private InlineKeyboardMarkup getInlineKeyboard(Answer answer){
+        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
+        List<InlineKeyboardButton> buttons = new ArrayList<>();
+        for(String variant : answer.getVariants()){
+            InlineKeyboardButton button = new InlineKeyboardButton();
+            button.setText(variant);
+            buttons.add(button);
+        }
+        inlineKeyboardMarkup.setKeyboard(Arrays.asList(buttons));
+        return inlineKeyboardMarkup;
+    }
+
+    private ReplyKeyboardMarkup getReplyKeyboard(Answer answer) {
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
         replyKeyboardMarkup.setSelective(true);
         replyKeyboardMarkup.setResizeKeyboard(true);
@@ -151,14 +166,15 @@ public class DefaultTelegramBot extends TelegramLongPollingBot implements Bot{
         return rows;
     }
 
-    private void sendMessage(long chat_id, String text, ReplyKeyboardMarkup keyboard) {
+    private void sendMessage(long chat_id, String text, ReplyKeyboard keyboard) {
         executorService.submit(new Runnable() {
 
             @Override
             public void run() {
-                LOG.debug("Send message for chat " + chat_id);
+                LOG.debug("Send message {} for chat {}", text, chat_id);
                 SendMessage message = new SendMessage() // Create a message object object
                         .setChatId(chat_id)
+                        .setParseMode(ParseMode.HTML)
                         .setReplyMarkup(keyboard)
                         .setText(text);
                 try {
@@ -208,14 +224,6 @@ public class DefaultTelegramBot extends TelegramLongPollingBot implements Bot{
         return StringUtils.isNotEmpty(message) && I_DONT_KNOW.equals(message);
     }
 
-    public void enableTestMode() {
-        testMode = true;
-    }
-
-    public void disableTestMode() {
-        testMode = false;
-    }
-
     @Override
     public String getBotUsername() {
         return name;
@@ -230,7 +238,15 @@ public class DefaultTelegramBot extends TelegramLongPollingBot implements Bot{
         this.token = token;
     }
 
-    public void setName(String name){
+    public void setName(String name) {
         this.name = name;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
     }
 }

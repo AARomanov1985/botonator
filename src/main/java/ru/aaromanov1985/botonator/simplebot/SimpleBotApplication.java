@@ -15,18 +15,6 @@ public class SimpleBotApplication {
                 "SpringBeans.xml");
 
         DefaultTelegramBot bot = context.getBean("bot", DefaultTelegramBot.class);
-
-        if (isTestMode(args)){
-            bot.enableTestMode();
-        }
-
         bot.execute();
-    }
-
-    private static boolean isTestMode(String[] args) {
-        if (args != null && args.length > 0) {
-			return TEST_MODE.equals(args[0]);
-        }
-        return false;
     }
 }

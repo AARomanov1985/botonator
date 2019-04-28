@@ -4,5 +4,5 @@ import ru.aaromanov1985.botonator.simplebot.node.Nodes;
 
 public interface NodeBuilder {
 
-    Nodes buildNodes();
+    Nodes buildNodes(String path);
 }

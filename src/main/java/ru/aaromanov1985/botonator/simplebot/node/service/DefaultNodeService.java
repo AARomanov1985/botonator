@@ -26,9 +26,9 @@ public class DefaultNodeService implements NodeService {
     private static final String ERROR_NODE = "errorNode";
     private static final String SUCCESS_NODE = "successNode";
 
-    @PostConstruct
-    private void buildNodels(){
-        nodes = nodeBuilder.buildNodes();
+    @Override
+    public void buildNodels(String path){
+        nodes = nodeBuilder.buildNodes(path);
     }
 
     @Override
