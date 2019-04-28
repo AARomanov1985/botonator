@@ -1,4 +1,4 @@
-package ru.aaromanov1985.botonator.simplebot;
+package ru.aaromanov1985.botonator.simplebot.conversation.answer;
 
 import java.util.List;
 
