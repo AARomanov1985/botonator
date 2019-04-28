@@ -1,4 +1,4 @@
-package ru.aaromanov1985.botonator.simplebot.service;
+package ru.aaromanov1985.botonator.simplebot.node.service;
 
 import ru.aaromanov1985.botonator.simplebot.node.Node;
 
