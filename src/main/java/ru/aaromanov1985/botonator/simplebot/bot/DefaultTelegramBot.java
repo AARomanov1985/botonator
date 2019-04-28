@@ -26,25 +26,24 @@ import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class DefaultBot extends TelegramLongPollingBot implements Bot{
+public class DefaultTelegramBot extends TelegramLongPollingBot implements Bot{
 
-    private Logger LOG = LoggerFactory.getLogger(DefaultBot.class);
+    private Logger LOG = LoggerFactory.getLogger(DefaultTelegramBot.class);
     private final static String START = "/start";
     private final static String CANCEL = "/cancel";
-    private final static String NAME = "sysadm623_bot";
     private final static String YES = "Да";
     private final static String NO = "Нет";
     private final static String I_DONT_KNOW = "Я ничего не понимаю";
-    private final static String TOKEN = "727435438:AAFAWnJOCbasqYIYeRR--eaTCs_gYrVOumI";
     private boolean testMode = false;
 
+    private String token;
+    private String name;
     private Set<Conversation> conversations = new HashSet<>();
-
     private ExecutorService executorService = Executors.newCachedThreadPool();
-
     @Resource
     private NodeService nodeService;
 
+    @Override
     public void execute() {
         if (testMode) {
             testMode();
@@ -257,11 +256,19 @@ public class DefaultBot extends TelegramLongPollingBot implements Bot{
 
     @Override
     public String getBotUsername() {
-        return NAME;
+        return name;
     }
 
     @Override
     public String getBotToken() {
-        return TOKEN;
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public void setName(String name){
+        this.name = name;
     }
 }

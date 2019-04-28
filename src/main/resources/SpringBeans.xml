@@ -9,11 +9,16 @@
 
     <context:annotation-config/>
 
+    <context:property-placeholder location="classpath:app.properties"/>
+
     <bean id="nodeBuilder" class="ru.aaromanov1985.botonator.simplebot.node.builder.DefaultXmlNodeBuilder">
-        <property name="path" value="resources/Nodes.xml"/>
+        <property name="path" value="${conversation.path}"/>
     </bean>
 
     <bean id="nodeService" class="ru.aaromanov1985.botonator.simplebot.node.service.DefaultNodeService"/>
 
-    <bean id="bot" class="ru.aaromanov1985.botonator.simplebot.bot.DefaultBot"/>
+    <bean id="bot" class="ru.aaromanov1985.botonator.simplebot.bot.DefaultTelegramBot">
+        <property name="token" value="${sysadm.bot.token}"/>
+        <property name="name" value="${sysadm.bot.name}"/>
+    </bean>
 </beans>
