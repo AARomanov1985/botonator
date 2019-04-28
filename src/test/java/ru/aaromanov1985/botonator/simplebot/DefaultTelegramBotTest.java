@@ -6,17 +6,17 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import ru.aaromanov1985.botonator.simplebot.bot.DefaultBot;
+import ru.aaromanov1985.botonator.simplebot.bot.DefaultTelegramBot;
 import ru.aaromanov1985.botonator.simplebot.node.service.NodeService;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-class DefaultBotTest {
+class DefaultTelegramBotTest {
 
     @InjectMocks
-    private DefaultBot instance;
+    private DefaultTelegramBot instance;
 
     @Mock
     private NodeService nodeService;
