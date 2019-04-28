@@ -3,7 +3,7 @@ package ru.aaromanov1985.botonator.simplebot;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.telegram.telegrambots.ApiContextInitializer;
-import ru.aaromanov1985.botonator.simplebot.bot.DefaultBot;
+import ru.aaromanov1985.botonator.simplebot.bot.DefaultTelegramBot;
 
 public class SimpleBotApplication {
 
@@ -14,7 +14,7 @@ public class SimpleBotApplication {
         ApplicationContext context = new ClassPathXmlApplicationContext(
                 "SpringBeans.xml");
 
-        DefaultBot bot = context.getBean("bot", DefaultBot.class);
+        DefaultTelegramBot bot = context.getBean("bot", DefaultTelegramBot.class);
 
         if (isTestMode(args)){
             bot.enableTestMode();
