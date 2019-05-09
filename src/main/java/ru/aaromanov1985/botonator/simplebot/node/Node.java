@@ -1,15 +1,17 @@
 package ru.aaromanov1985.botonator.simplebot.node;
 
+import ru.aaromanov1985.botonator.simplebot.conversation.Message;
+
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlType;
 import java.util.List;
 
-@XmlType(propOrder = {"code", "message", "type", "nextNode", "variants"}, name = "node")
+@XmlType(propOrder = {"code", "messages", "type", "nextNode", "variants"}, name = "node")
 public class Node {
 
     private String code;
-    private String message;
+    private List<Message> messages;
     private String type;
     private String nextNode;
     private List<Variant> variants;
@@ -30,12 +32,14 @@ public class Node {
         this.code = code;
     }
 
-    public String getMessage() {
-        return message;
+    @XmlElementWrapper(name = "messages")
+    @XmlElement(name = "message")
+    public List<Message> getMessages() {
+        return messages;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setMessages(List<Message> messages) {
+        this.messages = messages;
     }
 
     @XmlElementWrapper(name = "variants")

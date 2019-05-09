@@ -3,6 +3,7 @@ package ru.aaromanov1985.botonator.simplebot.node.service;
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.aaromanov1985.botonator.simplebot.conversation.service.ConversationService;
 import ru.aaromanov1985.botonator.simplebot.node.Node;
 import ru.aaromanov1985.botonator.simplebot.node.Nodes;
 import ru.aaromanov1985.botonator.simplebot.node.Variant;
@@ -16,6 +17,8 @@ public class DefaultNodeService implements NodeService {
 
     @Resource
     private DefaultXmlNodeBuilder nodeBuilder;
+    @Resource
+    private ConversationService conversationService;
 
     private Nodes nodes;
 
@@ -81,6 +84,11 @@ public class DefaultNodeService implements NodeService {
         Node node = new Node();
         node.setCode(ERROR_NODE);
         return node;
+    }
+
+    @Override
+    public String getMessage(final Node node){
+        return conversationService.convertMessages(node.getMessages());
     }
 
     @Override
