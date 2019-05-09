@@ -2,20 +2,30 @@
 <nodes>
     <node>
         <code>endNode</code>
-        <message>Commerce</message>
+        <messages>
+            <message>
+                <value>Commerce</value>
+            </message>
+        </messages>
     </node>
     <node>
         <code>successNode</code>
-        <message>Success</message>
+        <messages>
+            <message>
+                <value>Success</value>
+            </message>
+        </messages>
     </node>
-    <!--<node>-->
-        <!--<code>startNode</code>-->
-        <!--<nextNode>node00</nextNode>-->
-        <!--<message>Ваш компьютер не включается? Я помогу Вам!</message>-->
-    <!--</node>-->
     <node>
         <code>startNode</code>
-        <message>start</message>
+        <messages>
+            <message>
+                <value>start_01</value>
+            </message>
+            <message>
+                <value>start_02</value>
+            </message>
+        </messages>
         <variants>
             <variant>
                 <value>Да</value>
@@ -29,7 +39,11 @@
     </node>
     <node>
         <code>node01</code>
-        <message>Monitor_01</message>
+        <messages>
+            <message>
+                <value>Monitor_01</value>
+            </message>
+        </messages>
         <variants>
             <variant>
                 <value>Да</value>
@@ -41,9 +55,13 @@
             </variant>
         </variants>
     </node>
-        <node>
+    <node>
         <code>node02</code>
-        <message>Monitor_02</message>
+        <messages>
+            <message>
+                <value>Monitor_02</value>
+            </message>
+        </messages>
         <variants>
             <variant>
                 <value>Да</value>
@@ -57,7 +75,11 @@
     </node>
     <node>
         <code>node03</code>
-        <message>Power_01</message>
+        <messages>
+            <message>
+                <value>Power_01</value>
+            </message>
+        </messages>
         <variants>
             <variant>
                 <value>Да</value>
@@ -71,7 +93,14 @@
     </node>
     <node>
         <code>node04</code>
-        <message>Power_02</message>
+        <messages>
+            <message>
+                <value>Power_02</value>
+            </message>
+            <message>
+                <value>isItWork</value>
+            </message>
+        </messages>
         <variants>
             <variant>
                 <value>Да</value>
@@ -85,7 +114,14 @@
     </node>
     <node>
         <code>node05</code>
-        <message>Power_03</message>
+        <messages>
+            <message>
+                <value>Power_03</value>
+            </message>
+            <message>
+                <value>isItWork</value>
+            </message>
+        </messages>
         <variants>
             <variant>
                 <value>Да</value>
@@ -99,7 +135,11 @@
     </node>
     <node>
         <code>node06</code>
-        <message>Monitor_03</message>
+        <messages>
+            <message>
+                <value>Monitor_03</value>
+            </message>
+        </messages>
         <variants>
             <variant>
                 <value>Да</value>
@@ -115,6 +155,13 @@
         <code>node07</code>
         <type>end</type>
         <nextNode>endNode</nextNode>
-        <message>Monitor_04</message>
+        <messages>
+            <message>
+                <value>Monitor_04</value>
+            </message>
+            <message>
+                <value>isItWork</value>
+            </message>
+        </messages>
     </node>
 </nodes>

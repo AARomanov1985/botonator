@@ -23,6 +23,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.Keyboard
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.aaromanov1985.botonator.simplebot.conversation.answer.Answer;
 import ru.aaromanov1985.botonator.simplebot.conversation.Conversation;
+import ru.aaromanov1985.botonator.simplebot.conversation.service.ConversationService;
 import ru.aaromanov1985.botonator.simplebot.node.Node;
 import ru.aaromanov1985.botonator.simplebot.node.service.NodeService;
 
@@ -34,14 +35,18 @@ public class DefaultTelegramBot extends TelegramLongPollingBot implements Bot {
     private final static String START = "/start";
     private final static String CANCEL = "/cancel";
     private final static String I_DONT_KNOW = "Я ничего не понимаю";
+    private final static boolean ADD_NEW_LINE = true;
 
     private String token;
     private String name;
     private String path;
     private Set<Conversation> conversations = new HashSet<>();
     private ExecutorService executorService = Executors.newCachedThreadPool();
+
     @Resource
     private NodeService nodeService;
+    @Resource
+    private ConversationService conversationService;
 
     @Override
     public void execute() {
@@ -83,7 +88,7 @@ public class DefaultTelegramBot extends TelegramLongPollingBot implements Bot {
 
     private synchronized void startConversation(long chat_id, String message_text) {
         LOG.debug("Start conversation for chat_id" + chat_id);
-        Conversation conversation = new Conversation(chat_id, nodeService);
+        Conversation conversation = new Conversation(chat_id, nodeService, conversationService);
         conversations.add(conversation);
         Answer answer = conversation.execute(message_text);
         sendMessage(answer);
@@ -100,7 +105,7 @@ public class DefaultTelegramBot extends TelegramLongPollingBot implements Bot {
         if (conversation != null) {
             Node endNode = nodeService.getEndNode();
             Answer answer = new Answer(String.valueOf(chat_id));
-            answer.setMessage(endNode.getMessage());
+            answer.setMessage(nodeService.getMessage(endNode));
             LOG.debug("Answer: {}", answer);
             sendMessage(answer);
         }
@@ -124,7 +129,7 @@ public class DefaultTelegramBot extends TelegramLongPollingBot implements Bot {
 
         if (StringUtils.isNotEmpty(nextNode)) {
             Node node = nodeService.findNodeForCode(nextNode);
-            sendMessage(Long.valueOf(answer.getChatId()), node.getMessage(), getReplyKeyboard(answer));
+            sendMessage(Long.valueOf(answer.getChatId()), nodeService.getMessage(node), getReplyKeyboard(answer));
         }
     }
 
