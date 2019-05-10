@@ -88,9 +88,9 @@ public class DefaultTelegramBot extends TelegramLongPollingBot implements Bot {
 
     private synchronized void startConversation(long chat_id, String message_text) {
         LOG.debug("Start conversation for chat_id" + chat_id);
-        Conversation conversation = new Conversation(chat_id, nodeService, conversationService);
+        Conversation conversation = conversationService.buildConversation(chat_id);
         conversations.add(conversation);
-        Answer answer = conversation.execute(message_text);
+        Answer answer = conversationService.executeForNode(message_text, conversation);
         sendMessage(answer);
     }
 
@@ -116,7 +116,7 @@ public class DefaultTelegramBot extends TelegramLongPollingBot implements Bot {
         LOG.debug("Continue conversation for chat_id" + chat_id);
         Conversation conversation = getConversation(chat_id);
         if (conversation != null) {
-            Answer answer = conversation.execute(message_text);
+            Answer answer = conversationService.executeForNode(message_text, conversation);
             LOG.debug("Answer: {}", answer);
             sendMessage(answer);
         }
