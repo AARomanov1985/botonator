@@ -18,6 +18,8 @@
     <bean id="conversationService"
           class="ru.aaromanov1985.botonator.simplebot.conversation.service.DefaultConversationService">
         <property name="addNewLines" value="true"/>
+        <property name="bad_request" value="Неверный запрос"/>
+        <property name="timeout" value="1800000"/>
     </bean>
 
     <bean id="bot" class="ru.aaromanov1985.botonator.simplebot.bot.DefaultTelegramBot">
