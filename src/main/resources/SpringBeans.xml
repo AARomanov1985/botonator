@@ -15,6 +15,11 @@
 
     <bean id="nodeService" class="ru.aaromanov1985.botonator.simplebot.node.service.DefaultNodeService"/>
 
+    <bean id="conversationService"
+          class="ru.aaromanov1985.botonator.simplebot.conversation.service.DefaultConversationService">
+        <property name="addNewLines" value="true"/>
+    </bean>
+
     <bean id="bot" class="ru.aaromanov1985.botonator.simplebot.bot.DefaultTelegramBot">
         <property name="token" value="${sysadm.bot.token}"/>
         <property name="name" value="${sysadm.bot.name}"/>

@@ -18,6 +18,8 @@ public interface NodeService {
 
     Node getErrorNode();
 
+    String getMessage(Node node);
+
     boolean isErrorNode(Node node);
 
     boolean isStartNode(Node node);

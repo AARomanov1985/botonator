@@ -1,15 +1,14 @@
 package ru.aaromanov1985.botonator.simplebot.conversation;
 
-import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.aaromanov1985.botonator.simplebot.conversation.answer.Answer;
+import ru.aaromanov1985.botonator.simplebot.conversation.service.ConversationService;
 import ru.aaromanov1985.botonator.simplebot.node.Node;
-import ru.aaromanov1985.botonator.simplebot.node.Variant;
 import ru.aaromanov1985.botonator.simplebot.node.service.NodeService;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.annotation.Resource;
+import java.util.Arrays;
 import java.util.Objects;
 
 public class Conversation {
@@ -26,11 +25,13 @@ public class Conversation {
     private static final long TIMEOUT = 1800000;
 
     private NodeService nodeService;
+    private ConversationService conversationService;
 
-    public Conversation(long id, NodeService nodeService) {
+    public Conversation(long id, NodeService nodeService, ConversationService conversationService) {
         LOG.debug("Create conversation");
         this.id = id;
         this.nodeService = nodeService;
+        this.conversationService = conversationService;
         init();
 
         LOG.debug("id= {}", id);
@@ -51,20 +52,10 @@ public class Conversation {
 
         Node node = getAnswer(message);
         Answer answer = new Answer(String.valueOf(id));
-        answer.setMessage(node.getMessage());
+        answer.setMessage(conversationService.convertMessages(node.getMessages()));
         answer.setNextNode(currentNode.getNextNode());
-        answer.setVariants(convertVariants(node.getVariants()));
+        answer.setVariants(conversationService.convertVariants(node.getVariants()));
         return answer;
-    }
-    
-    private List<String> convertVariants(List<Variant> variants){
-        List<String> variantsOfAnswers = new ArrayList<>();
-        if (CollectionUtils.isNotEmpty(variants)){
-            for (Variant variant : variants){
-                variantsOfAnswers.add(variant.getValue());
-            }
-        }
-        return variantsOfAnswers;
     }
 
     private Node getAnswer(String request) {
@@ -83,7 +74,7 @@ public class Conversation {
         if (nodeService.isErrorNode(node)) {
             LOG.error("It's error node!");
             Node errNode = nodeService.getErrorNode();
-            errNode.setMessage(INCORRECT_REQUEST);
+            errNode.setMessages(Arrays.asList(new Message(INCORRECT_REQUEST)));
             return errNode;
         }
 
