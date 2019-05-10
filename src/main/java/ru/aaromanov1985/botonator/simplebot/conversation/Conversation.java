@@ -15,87 +15,65 @@ public class Conversation {
 
     private Logger LOG = LoggerFactory.getLogger(Conversation.class);
 
-    private final static String INCORRECT_REQUEST = "Неверный запрос";
     private long id;
     private long lastRequest;
     private Node currentNode;
     private boolean isActive;
     private boolean isFirstRequest;
     // 30 min
-    private static final long TIMEOUT = 1800000;
-
-    private NodeService nodeService;
-    private ConversationService conversationService;
-
-    public Conversation(long id, NodeService nodeService, ConversationService conversationService) {
-        LOG.debug("Create conversation");
-        this.id = id;
-        this.nodeService = nodeService;
-        this.conversationService = conversationService;
-        init();
-
-        LOG.debug("id= {}", id);
-        LOG.debug("currentNode= {}", currentNode.getCode());
-        LOG.debug("isActive= {}", isActive);
-        LOG.debug("nodeService= {}", nodeService);
-    }
-
-    private void init(){
-        currentNode = nodeService.getStartNode();
-        isActive = true;
-        isFirstRequest = true;
-    }
-
-    public Answer execute(String message) {
-        LOG.debug("execute conversation for message {}", message);
-        lastRequest = System.currentTimeMillis();
-
-        Node node = getAnswer(message);
-        Answer answer = new Answer(String.valueOf(id));
-        answer.setMessage(conversationService.convertMessages(node.getMessages()));
-        answer.setNextNode(currentNode.getNextNode());
-        answer.setVariants(conversationService.convertVariants(node.getVariants()));
-        return answer;
-    }
-
-    private Node getAnswer(String request) {
-
-        if (nodeService.isEndNode(currentNode) || nodeService.isErrorNode(currentNode)){
-            init();
-        }
-
-        if (isFirstRequest) {
-            isFirstRequest = false;
-            return currentNode;
-        }
-
-        Node node = nodeService.getAnswer(currentNode, request);
-
-        if (nodeService.isErrorNode(node)) {
-            LOG.error("It's error node!");
-            Node errNode = nodeService.getErrorNode();
-            errNode.setMessages(Arrays.asList(new Message(INCORRECT_REQUEST)));
-            return errNode;
-        }
-
-        updateCurrentNode(node);
-        return node;
-    }
-
-    private void updateCurrentNode(Node node) {
-        if (node != null) {
-            currentNode = node;
-            LOG.info("current node changed to " + node.getCode());
-        }
-    }
+    private long timeout = 1800000;
 
     public boolean isActual() {
         long time = System.currentTimeMillis() - lastRequest;
-        return time < TIMEOUT && isActive;
+        return time < timeout && isActive;
     }
 
     public long getId() {
         return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public long getLastRequest() {
+        return lastRequest;
+    }
+
+    public void setLastRequest(long lastRequest) {
+        this.lastRequest = lastRequest;
+    }
+
+    public Node getCurrentNode() {
+        return currentNode;
+    }
+
+    public void setCurrentNode(Node currentNode) {
+        this.currentNode = currentNode;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+
+    public boolean isFirstRequest() {
+        return isFirstRequest;
+    }
+
+    public void setFirstRequest(boolean firstRequest) {
+        isFirstRequest = firstRequest;
+    }
+
+    public long getTimeout() {
+        return timeout;
+    }
+
+    public void setTimeout(long timeout) {
+        this.timeout = timeout;
     }
 
     @Override

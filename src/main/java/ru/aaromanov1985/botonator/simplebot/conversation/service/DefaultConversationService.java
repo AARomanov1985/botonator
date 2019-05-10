@@ -1,15 +1,95 @@
 package ru.aaromanov1985.botonator.simplebot.conversation.service;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import ru.aaromanov1985.botonator.simplebot.conversation.Conversation;
 import ru.aaromanov1985.botonator.simplebot.conversation.Message;
+import ru.aaromanov1985.botonator.simplebot.conversation.answer.Answer;
+import ru.aaromanov1985.botonator.simplebot.node.Node;
 import ru.aaromanov1985.botonator.simplebot.node.Variant;
+import ru.aaromanov1985.botonator.simplebot.node.service.NodeService;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class DefaultConversationService implements ConversationService {
 
+    private static final Logger LOG = LoggerFactory.getLogger(DefaultConversationService.class);
+
     private boolean addNewLines;
+    private String bad_request = "Неверный запрос";
+    // 30 min
+    private long timeout = 1800000;
+
+    @Resource
+    private NodeService nodeService;
+
+    @Override
+    public Answer executeForNode(final String message, final Conversation conversation) {
+        LOG.debug("execute conversation for message {}", message);
+        conversation.setLastRequest(System.currentTimeMillis());
+
+        Node node = getAnswer(message, conversation);
+        Answer answer = new Answer(String.valueOf(conversation.getId()));
+        answer.setMessage(convertMessages(node.getMessages()));
+        answer.setNextNode(conversation.getCurrentNode().getNextNode());
+        answer.setVariants(convertVariants(node.getVariants()));
+        return answer;
+    }
+
+    private Node getAnswer(final String request, final Conversation conversation) {
+
+        if (nodeService.isEndNode(conversation.getCurrentNode())
+                || nodeService.isErrorNode(conversation.getCurrentNode())){
+            initConversation(conversation);
+        }
+
+        if (conversation.isFirstRequest()) {
+            conversation.setFirstRequest(false);
+            return conversation.getCurrentNode();
+        }
+
+        Node node = nodeService.getAnswer(conversation.getCurrentNode(), request);
+
+        if (nodeService.isErrorNode(node)) {
+            LOG.error("It's error node!");
+            Node errNode = nodeService.getErrorNode();
+            errNode.setMessages(Arrays.asList(new Message(bad_request)));
+            return errNode;
+        }
+
+        updateCurrentNode(node, conversation);
+        return node;
+    }
+
+    private void updateCurrentNode(final Node node, final Conversation conversation) {
+        if (node != null) {
+            conversation.setCurrentNode(node);
+            LOG.info("current node changed to " + node.getCode());
+        }
+    }
+
+    @Override
+    public Conversation buildConversation(long id){
+        LOG.debug("Create conversation");
+        Conversation conversation = new Conversation();
+        conversation.setId(id);
+        initConversation(conversation);
+        LOG.debug("id= {}", id);
+        LOG.debug("currentNode= {}", conversation.getCurrentNode().getCode());
+        LOG.debug("isActive= {}", conversation.isActive());
+
+        return conversation;
+    }
+
+    private void initConversation(final Conversation conversation){
+        conversation.setCurrentNode(nodeService.getStartNode());
+        conversation.setActive(true);
+        conversation.setFirstRequest(true);
+    }
 
     @Override
     public String convertMessages(List<Message> messages) {
