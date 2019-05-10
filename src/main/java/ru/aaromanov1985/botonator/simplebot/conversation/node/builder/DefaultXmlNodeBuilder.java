@@ -1,17 +1,16 @@
-package ru.aaromanov1985.botonator.simplebot.node.builder;
+package ru.aaromanov1985.botonator.simplebot.conversation.node.builder;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.aaromanov1985.botonator.simplebot.conversation.Message;
-import ru.aaromanov1985.botonator.simplebot.node.Node;
-import ru.aaromanov1985.botonator.simplebot.node.Nodes;
+import ru.aaromanov1985.botonator.simplebot.conversation.node.Message;
+import ru.aaromanov1985.botonator.simplebot.conversation.node.Node;
+import ru.aaromanov1985.botonator.simplebot.conversation.node.Nodes;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import java.io.*;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 

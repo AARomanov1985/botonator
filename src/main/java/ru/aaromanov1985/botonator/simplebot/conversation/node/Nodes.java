@@ -1,4 +1,4 @@
-package ru.aaromanov1985.botonator.simplebot.node;
+package ru.aaromanov1985.botonator.simplebot.conversation.node;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;

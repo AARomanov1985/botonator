@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <nodes>
     <node>
+        <messageType>text</messageType>
         <code>endNode</code>
         <messages>
             <message>
@@ -9,6 +10,7 @@
         </messages>
     </node>
     <node>
+        <messageType>text</messageType>
         <code>successNode</code>
         <messages>
             <message>
@@ -17,6 +19,7 @@
         </messages>
     </node>
     <node>
+        <messageType>image</messageType>
         <code>startNode</code>
         <messages>
             <message>
@@ -26,10 +29,11 @@
                 <value>start_02</value>
             </message>
         </messages>
+        <image>https://cdn.pixabay.com/photo/2014/04/02/10/47/computer-304585_960_720.png</image>
         <variants>
             <variant>
                 <value>Да</value>
-                <target>node01</target>
+                <target>node01</target><e><en></en></e>
             </variant>
             <variant>
                 <value>Нет</value>
@@ -38,6 +42,7 @@
         </variants>
     </node>
     <node>
+        <messageType>text</messageType>
         <code>node01</code>
         <messages>
             <message>
@@ -56,6 +61,7 @@
         </variants>
     </node>
     <node>
+        <messageType>text</messageType>
         <code>node02</code>
         <messages>
             <message>
@@ -74,6 +80,7 @@
         </variants>
     </node>
     <node>
+        <messageType>text</messageType>
         <code>node03</code>
         <messages>
             <message>
@@ -87,11 +94,12 @@
             </variant>
             <variant>
                 <value>Нет</value>
-                <target>end</target>
+                <target>endNode</target>
             </variant>
         </variants>
     </node>
     <node>
+        <messageType>text</messageType>
         <code>node04</code>
         <messages>
             <message>
@@ -108,11 +116,12 @@
             </variant>
             <variant>
                 <value>Нет</value>
-                <target>end</target>
+                <target>endNode</target>
             </variant>
         </variants>
     </node>
     <node>
+        <messageType>text</messageType>
         <code>node05</code>
         <messages>
             <message>
@@ -129,11 +138,12 @@
             </variant>
             <variant>
                 <value>Нет</value>
-                <target>end</target>
+                <target>endNode</target>
             </variant>
         </variants>
     </node>
     <node>
+        <messageType>text</messageType>
         <code>node06</code>
         <messages>
             <message>
@@ -152,6 +162,7 @@
         </variants>
     </node>
     <node>
+        <messageType>text</messageType>
         <code>node07</code>
         <type>end</type>
         <nextNode>endNode</nextNode>

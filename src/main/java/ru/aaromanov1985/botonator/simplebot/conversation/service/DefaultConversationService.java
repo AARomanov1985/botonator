@@ -4,15 +4,17 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.aaromanov1985.botonator.simplebot.conversation.Conversation;
-import ru.aaromanov1985.botonator.simplebot.conversation.Message;
+import ru.aaromanov1985.botonator.simplebot.conversation.node.Message;
 import ru.aaromanov1985.botonator.simplebot.conversation.answer.Answer;
-import ru.aaromanov1985.botonator.simplebot.node.Node;
-import ru.aaromanov1985.botonator.simplebot.node.Variant;
-import ru.aaromanov1985.botonator.simplebot.node.service.NodeService;
+import ru.aaromanov1985.botonator.simplebot.conversation.node.Node;
+import ru.aaromanov1985.botonator.simplebot.conversation.node.Variant;
+import ru.aaromanov1985.botonator.simplebot.conversation.node.converter.NodeToAnswerConverter;
+import ru.aaromanov1985.botonator.simplebot.conversation.node.service.NodeService;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class DefaultConversationService implements ConversationService {
@@ -25,6 +27,8 @@ public class DefaultConversationService implements ConversationService {
 
     @Resource
     private NodeService nodeService;
+    @Resource
+    private NodeToAnswerConverter nodeToAnswerConverter;
 
     @Override
     public Answer executeForNode(final String message, final Conversation conversation) {
@@ -33,9 +37,8 @@ public class DefaultConversationService implements ConversationService {
 
         Node node = getAnswer(message, conversation);
         Answer answer = new Answer(String.valueOf(conversation.getId()));
-        answer.setMessage(convertMessages(node.getMessages()));
+        nodeToAnswerConverter.convert(node, answer);
         answer.setNextNode(conversation.getCurrentNode().getNextNode());
-        answer.setVariants(convertVariants(node.getVariants()));
         return answer;
     }
 
@@ -56,7 +59,7 @@ public class DefaultConversationService implements ConversationService {
         if (nodeService.isErrorNode(node)) {
             LOG.error("It's error node!");
             Node errNode = nodeService.getErrorNode();
-            errNode.setMessages(Arrays.asList(new Message(bad_request)));
+            errNode.setMessages(Collections.singletonList(new Message(bad_request)));
             return errNode;
         }
 

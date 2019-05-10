@@ -14,6 +14,7 @@ import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.api.methods.ParseMode;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
@@ -23,15 +24,16 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.Keyboard
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.aaromanov1985.botonator.simplebot.conversation.answer.Answer;
 import ru.aaromanov1985.botonator.simplebot.conversation.Conversation;
+import ru.aaromanov1985.botonator.simplebot.conversation.node.MessageType;
+import ru.aaromanov1985.botonator.simplebot.conversation.node.converter.NodeToAnswerConverter;
 import ru.aaromanov1985.botonator.simplebot.conversation.service.ConversationService;
-import ru.aaromanov1985.botonator.simplebot.node.Node;
-import ru.aaromanov1985.botonator.simplebot.node.service.NodeService;
-
+import ru.aaromanov1985.botonator.simplebot.conversation.node.Node;
+import ru.aaromanov1985.botonator.simplebot.conversation.node.service.NodeService;
 
 
 public class DefaultTelegramBot extends TelegramLongPollingBot implements Bot {
 
-    private Logger LOG = LoggerFactory.getLogger(DefaultTelegramBot.class);
+    private final static Logger LOG = LoggerFactory.getLogger(DefaultTelegramBot.class);
     private final static String START = "/start";
     private final static String CANCEL = "/cancel";
     private final static String I_DONT_KNOW = "Я ничего не понимаю";
@@ -40,17 +42,20 @@ public class DefaultTelegramBot extends TelegramLongPollingBot implements Bot {
     private String token;
     private String name;
     private String path;
-    private Set<Conversation> conversations = new HashSet<>();
-    private ExecutorService executorService = Executors.newCachedThreadPool();
+    private final Set<Conversation> conversations = new HashSet<>();
+    private final ExecutorService executorService = Executors.newCachedThreadPool();
 
     @Resource
     private NodeService nodeService;
     @Resource
     private ConversationService conversationService;
+    @Resource
+    private NodeToAnswerConverter nodeToAnswerConverter;
+
 
     @Override
     public void execute() {
-        nodeService.buildNodels(path);
+        nodeService.buildNodes(path);
 
         ApiContextInitializer.init();
         TelegramBotsApi botsApi = new TelegramBotsApi();
@@ -63,8 +68,8 @@ public class DefaultTelegramBot extends TelegramLongPollingBot implements Bot {
     }
 
     @Override
-    public void onUpdateReceived(Update update) {
-        nodeService.buildNodels(path);
+    public void onUpdateReceived(final Update update) {
+        nodeService.buildNodes(path);
 
         LOG.info("request received");
         // We check if the update has a message and the message has text
@@ -86,7 +91,16 @@ public class DefaultTelegramBot extends TelegramLongPollingBot implements Bot {
         }
     }
 
-    private synchronized void startConversation(long chat_id, String message_text) {
+    private void validateConversations() {
+        for (Conversation conversation : conversations) {
+            if (!conversation.isActual()) {
+                LOG.info("Conversation with id {} will be removed", conversation.getId());
+                conversations.remove(conversation);
+            }
+        }
+    }
+
+    private synchronized void startConversation(long chat_id, final String message_text) {
         LOG.debug("Start conversation for chat_id" + chat_id);
         Conversation conversation = conversationService.buildConversation(chat_id);
         conversations.add(conversation);
@@ -105,7 +119,7 @@ public class DefaultTelegramBot extends TelegramLongPollingBot implements Bot {
         if (conversation != null) {
             Node endNode = nodeService.getEndNode();
             Answer answer = new Answer(String.valueOf(chat_id));
-            answer.setMessage(nodeService.getMessage(endNode));
+            nodeToAnswerConverter.convert(endNode, answer);
             LOG.debug("Answer: {}", answer);
             sendMessage(answer);
         }
@@ -122,30 +136,29 @@ public class DefaultTelegramBot extends TelegramLongPollingBot implements Bot {
         }
     }
 
-    private void sendMessage(Answer answer) {
-        sendMessage(Long.valueOf(answer.getChatId()), answer.getMessage(), getReplyKeyboard(answer));
+    private void sendMessage(final Answer answer) {
+        sendMessage(answer, getReplyKeyboard(answer));
 
         String nextNode = answer.getNextNode();
 
         if (StringUtils.isNotEmpty(nextNode)) {
-            Node node = nodeService.findNodeForCode(nextNode);
-            sendMessage(Long.valueOf(answer.getChatId()), nodeService.getMessage(node), getReplyKeyboard(answer));
+            sendMessage(answer, getReplyKeyboard(answer));
         }
     }
 
-    private InlineKeyboardMarkup getInlineKeyboard(Answer answer){
+    private InlineKeyboardMarkup getInlineKeyboard(final Answer answer) {
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
         List<InlineKeyboardButton> buttons = new ArrayList<>();
-        for(String variant : answer.getVariants()){
+        for (String variant : answer.getVariants()) {
             InlineKeyboardButton button = new InlineKeyboardButton();
             button.setText(variant);
             buttons.add(button);
         }
-        inlineKeyboardMarkup.setKeyboard(Arrays.asList(buttons));
+        inlineKeyboardMarkup.setKeyboard(Collections.singletonList(buttons));
         return inlineKeyboardMarkup;
     }
 
-    private ReplyKeyboardMarkup getReplyKeyboard(Answer answer) {
+    private ReplyKeyboardMarkup getReplyKeyboard(final Answer answer) {
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
         replyKeyboardMarkup.setSelective(true);
         replyKeyboardMarkup.setResizeKeyboard(true);
@@ -155,7 +168,7 @@ public class DefaultTelegramBot extends TelegramLongPollingBot implements Bot {
         return replyKeyboardMarkup;
     }
 
-    private List<KeyboardRow> getRowsForVariants(Answer answer) {
+    private List<KeyboardRow> getRowsForVariants(final Answer answer) {
         List<String> variants = answer.getVariants();
         List<KeyboardRow> rows = new ArrayList<>();
         if (CollectionUtils.isNotEmpty(variants)) {
@@ -171,17 +184,27 @@ public class DefaultTelegramBot extends TelegramLongPollingBot implements Bot {
         return rows;
     }
 
-    private void sendMessage(long chat_id, String text, ReplyKeyboard keyboard) {
+    private void sendMessage(final Answer answer, final ReplyKeyboard keyboard) {
+        if (MessageType.TEXT.equals(answer.getMessageType())) {
+            sendTextMessage(answer, keyboard);
+        } else if (MessageType.IMAGE.equals(answer.getMessageType())) {
+            sendImage(answer, keyboard);
+        } else {
+            LOG.error("Unknown message type {}", answer.getMessageType());
+        }
+    }
+
+    private void sendTextMessage(final Answer answer, final ReplyKeyboard keyboard) {
         executorService.submit(new Runnable() {
 
             @Override
             public void run() {
-                LOG.debug("Send message {} for chat {}", text, chat_id);
+                LOG.debug("Send message {} for chat {}", answer.getMessage(), answer.getChatId());
                 SendMessage message = new SendMessage() // Create a message object object
-                        .setChatId(chat_id)
+                        .setChatId(answer.getChatId())
                         .setParseMode(ParseMode.HTML)
                         .setReplyMarkup(keyboard)
-                        .setText(text);
+                        .setText(answer.getMessage());
                 try {
                     execute(message); // Sending our message object to user
                 } catch (TelegramApiException e) {
@@ -191,13 +214,25 @@ public class DefaultTelegramBot extends TelegramLongPollingBot implements Bot {
         });
     }
 
-    private void validateConversations() {
-        for (Conversation conversation : conversations) {
-            if (!conversation.isActual()) {
-                LOG.info("Conversation with id {} will be removed", conversation.getId());
-                conversations.remove(conversation);
+    private void sendImage(final Answer answer, final ReplyKeyboard keyboard) {
+        executorService.submit(new Runnable() {
+
+            @Override
+            public void run() {
+                LOG.debug("Send message {} for chat {}", answer.getMessage(), answer.getChatId());
+                SendPhoto message = new SendPhoto() // Create a message object object
+                        .setChatId(answer.getChatId())
+                        .setPhoto(answer.getImage())
+                        .setParseMode(ParseMode.HTML)
+                        .setReplyMarkup(keyboard)
+                        .setCaption(answer.getMessage());
+                try {
+                    execute(message); // Sending our message object to user
+                } catch (TelegramApiException e) {
+                    LOG.error(e.getMessage(), e);
+                }
             }
-        }
+        });
     }
 
     private Conversation getConversation(long chatId) {
@@ -221,11 +256,11 @@ public class DefaultTelegramBot extends TelegramLongPollingBot implements Bot {
         return false;
     }
 
-    private boolean isCancel(String message) {
+    private boolean isCancel(final String message) {
         return StringUtils.isNotEmpty(message) && CANCEL.equals(message);
     }
 
-    private boolean isIDontKnow(String message) {
+    private boolean isIDontKnow(final String message) {
         return StringUtils.isNotEmpty(message) && I_DONT_KNOW.equals(message);
     }
 
@@ -239,11 +274,11 @@ public class DefaultTelegramBot extends TelegramLongPollingBot implements Bot {
         return token;
     }
 
-    public void setToken(String token) {
+    public void setToken(final String token) {
         this.token = token;
     }
 
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
@@ -251,7 +286,7 @@ public class DefaultTelegramBot extends TelegramLongPollingBot implements Bot {
         return path;
     }
 
-    public void setPath(String path) {
+    public void setPath(final String path) {
         this.path = path;
     }
 }
