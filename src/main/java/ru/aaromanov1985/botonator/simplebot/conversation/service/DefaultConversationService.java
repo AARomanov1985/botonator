@@ -20,9 +20,8 @@ public class DefaultConversationService implements ConversationService {
     private static final Logger LOG = LoggerFactory.getLogger(DefaultConversationService.class);
 
     private boolean addNewLines;
-    private String bad_request = "Неверный запрос";
-    // 30 min
-    private long timeout = 1800000;
+    private String bad_request;
+    private long timeout;
 
     @Resource
     private NodeService nodeService;
@@ -129,5 +128,13 @@ public class DefaultConversationService implements ConversationService {
 
     public void setAddNewLines(boolean addNewLines) {
         this.addNewLines = addNewLines;
+    }
+
+    public void setBad_request(String bad_request) {
+        this.bad_request = bad_request;
+    }
+
+    public void setTimeout(long timeout) {
+        this.timeout = timeout;
     }
 }
