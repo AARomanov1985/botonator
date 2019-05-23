@@ -2,13 +2,8 @@ package ru.aaromanov1985.botonator.simplebot.conversation;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.aaromanov1985.botonator.simplebot.conversation.answer.Answer;
-import ru.aaromanov1985.botonator.simplebot.conversation.service.ConversationService;
-import ru.aaromanov1985.botonator.simplebot.node.Node;
-import ru.aaromanov1985.botonator.simplebot.node.service.NodeService;
+import ru.aaromanov1985.botonator.simplebot.conversation.node.Node;
 
-import javax.annotation.Resource;
-import java.util.Arrays;
 import java.util.Objects;
 
 public class Conversation {

@@ -1,20 +1,36 @@
-package ru.aaromanov1985.botonator.simplebot.node;
-
-import ru.aaromanov1985.botonator.simplebot.conversation.Message;
+package ru.aaromanov1985.botonator.simplebot.conversation.node;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlType;
 import java.util.List;
 
-@XmlType(propOrder = {"code", "messages", "type", "nextNode", "variants"}, name = "node")
+@XmlType(propOrder =
+    {"messageType",
+     "code",
+     "messages",
+     "image",
+     "type",
+     "nextNode",
+     "variants"},
+    name = "node")
 public class Node {
 
     private String code;
+    private String messageType;
     private List<Message> messages;
+    private String image;
     private String type;
     private String nextNode;
     private List<Variant> variants;
+
+    public String getMessageType() {
+        return messageType;
+    }
+
+    public void setMessageType(String messageType) {
+        this.messageType = messageType;
+    }
 
     public String getNextNode() {
         return nextNode;
@@ -50,6 +66,14 @@ public class Node {
 
     public void setVariants(List<Variant> variants) {
         this.variants = variants;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public String getType() {

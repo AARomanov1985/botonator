@@ -1,9 +1,14 @@
 package ru.aaromanov1985.botonator.simplebot.conversation.answer;
 
+import ru.aaromanov1985.botonator.simplebot.conversation.node.MessageType;
+
+import java.io.File;
 import java.util.List;
 
 public class Answer {
 
+    private MessageType messageType;
+    private String image;
     private String chatId;
     private String message;
     private String nextNode;
@@ -18,6 +23,14 @@ public class Answer {
         this.message = message;
         this.nextNode = nextNode;
         this.variants = variants;
+    }
+
+    public MessageType getMessageType() {
+        return messageType;
+    }
+
+    public void setMessageType(MessageType messageType) {
+        this.messageType = messageType;
     }
 
     public String getMessage() {
@@ -50,5 +63,25 @@ public class Answer {
 
     public void setVariants(List<String> variants) {
         this.variants = variants;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    @Override
+    public String toString() {
+        return "Answer{" +
+                "messageType=" + messageType +
+                ", image='" + image + '\'' +
+                ", chatId='" + chatId + '\'' +
+                ", message='" + message + '\'' +
+                ", nextNode='" + nextNode + '\'' +
+                ", variants=" + variants +
+                '}';
     }
 }

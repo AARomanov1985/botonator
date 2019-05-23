@@ -1,15 +1,15 @@
-package ru.aaromanov1985.botonator.simplebot.node.service;
+package ru.aaromanov1985.botonator.simplebot.conversation.node.service;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.aaromanov1985.botonator.simplebot.conversation.node.MessageType;
 import ru.aaromanov1985.botonator.simplebot.conversation.service.ConversationService;
-import ru.aaromanov1985.botonator.simplebot.node.Node;
-import ru.aaromanov1985.botonator.simplebot.node.Nodes;
-import ru.aaromanov1985.botonator.simplebot.node.Variant;
-import ru.aaromanov1985.botonator.simplebot.node.builder.DefaultXmlNodeBuilder;
+import ru.aaromanov1985.botonator.simplebot.conversation.node.Node;
+import ru.aaromanov1985.botonator.simplebot.conversation.node.Nodes;
+import ru.aaromanov1985.botonator.simplebot.conversation.node.Variant;
+import ru.aaromanov1985.botonator.simplebot.conversation.node.builder.DefaultXmlNodeBuilder;
 
-import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import java.util.List;
 
@@ -19,6 +19,8 @@ public class DefaultNodeService implements NodeService {
     private DefaultXmlNodeBuilder nodeBuilder;
     @Resource
     private ConversationService conversationService;
+
+    private String path;
 
     private Nodes nodes;
 
@@ -30,7 +32,7 @@ public class DefaultNodeService implements NodeService {
     private static final String SUCCESS_NODE = "successNode";
 
     @Override
-    public void buildNodels(String path){
+    public void buildNodes(final String path){
         nodes = nodeBuilder.buildNodes(path);
     }
 
@@ -50,7 +52,7 @@ public class DefaultNodeService implements NodeService {
     }
 
     @Override
-    public Node getAnswer(Node currentNode, String request) {
+    public Node getAnswer(final Node currentNode, final String request) {
         LOG.debug("getAnswer for node {} and request {}", currentNode.getCode(), request);
         List<Variant> variants = currentNode.getVariants();
         if (CollectionUtils.isNotEmpty(variants)) {
@@ -67,7 +69,7 @@ public class DefaultNodeService implements NodeService {
     }
 
     @Override
-    public Node findNodeForCode(String nodeCode) {
+    public Node findNodeForCode(final String nodeCode) {
         LOG.debug("Find node for code {}",nodeCode);
         for (Node node : nodes.getNodes()) {
             if (node.getCode().equals(nodeCode)) {
@@ -83,7 +85,14 @@ public class DefaultNodeService implements NodeService {
     public Node getErrorNode() {
         Node node = new Node();
         node.setCode(ERROR_NODE);
+        node.setMessageType(MessageType.TEXT.toString());
         return node;
+    }
+
+    @Override
+    public MessageType getNodeType(final Node node){
+        LOG.debug("MessageType: {}", node.getMessageType());
+        return MessageType.valueOf(node.getMessageType().toUpperCase());
     }
 
     @Override
@@ -92,17 +101,21 @@ public class DefaultNodeService implements NodeService {
     }
 
     @Override
-    public boolean isErrorNode(Node node) {
+    public boolean isErrorNode(final Node node) {
         return node == null || node.getCode().equals(ERROR_NODE);
     }
 
     @Override
-    public boolean isStartNode(Node node) {
+    public boolean isStartNode(final Node node) {
         return node != null && node.getCode().equals(START_NODE);
     }
 
     @Override
-    public boolean isEndNode(Node node){
+    public boolean isEndNode(final Node node){
         return node != null && END_NODE.equals(node.getCode());
+    }
+
+    public void setPath(String path) {
+        this.path = path;
     }
 }

@@ -11,9 +11,15 @@
 
     <context:property-placeholder location="classpath:app.properties"/>
 
-    <bean id="nodeBuilder" class="ru.aaromanov1985.botonator.simplebot.node.builder.DefaultXmlNodeBuilder"/>
+    <bean id="nodeBuilder"
+          class="ru.aaromanov1985.botonator.simplebot.conversation.node.builder.DefaultXmlNodeBuilder"/>
 
-    <bean id="nodeService" class="ru.aaromanov1985.botonator.simplebot.node.service.DefaultNodeService"/>
+    <bean id="nodeService" class="ru.aaromanov1985.botonator.simplebot.conversation.node.service.DefaultNodeService">
+        <property name="path" value="${sysadm.path}"/>
+    </bean>
+
+    <bean id="nodeToAnswerConverter"
+          class="ru.aaromanov1985.botonator.simplebot.conversation.node.converter.NodeToAnswerConverter"/>
 
     <bean id="conversationService"
           class="ru.aaromanov1985.botonator.simplebot.conversation.service.DefaultConversationService">

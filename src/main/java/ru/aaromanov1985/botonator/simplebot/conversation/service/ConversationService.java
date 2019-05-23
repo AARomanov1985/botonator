@@ -1,9 +1,9 @@
 package ru.aaromanov1985.botonator.simplebot.conversation.service;
 
 import ru.aaromanov1985.botonator.simplebot.conversation.Conversation;
-import ru.aaromanov1985.botonator.simplebot.conversation.Message;
+import ru.aaromanov1985.botonator.simplebot.conversation.node.Message;
 import ru.aaromanov1985.botonator.simplebot.conversation.answer.Answer;
-import ru.aaromanov1985.botonator.simplebot.node.Variant;
+import ru.aaromanov1985.botonator.simplebot.conversation.node.Variant;
 
 import java.util.List;
 
