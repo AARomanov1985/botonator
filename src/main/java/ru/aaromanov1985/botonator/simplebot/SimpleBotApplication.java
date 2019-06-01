@@ -7,8 +7,6 @@ import ru.aaromanov1985.botonator.simplebot.bot.DefaultTelegramBot;
 
 public class SimpleBotApplication {
 
-    private static final String TEST_MODE = "test";
-
     public static void main(String[] args) {
         ApiContextInitializer.init();
         ApplicationContext context = new ClassPathXmlApplicationContext(

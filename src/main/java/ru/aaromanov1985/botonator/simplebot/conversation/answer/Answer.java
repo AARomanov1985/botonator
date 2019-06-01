@@ -2,7 +2,6 @@ package ru.aaromanov1985.botonator.simplebot.conversation.answer;
 
 import ru.aaromanov1985.botonator.simplebot.conversation.node.MessageType;
 
-import java.io.File;
 import java.util.List;
 
 public class Answer {
@@ -16,13 +15,6 @@ public class Answer {
 
     public Answer(String chatId) {
         this.chatId = chatId;
-    }
-
-    public Answer(String chatId, String message, String nextNode, List<String> variants) {
-        this.chatId = chatId;
-        this.message = message;
-        this.nextNode = nextNode;
-        this.variants = variants;
     }
 
     public MessageType getMessageType() {

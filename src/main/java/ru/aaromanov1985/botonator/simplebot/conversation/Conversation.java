@@ -1,14 +1,10 @@
 package ru.aaromanov1985.botonator.simplebot.conversation;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import ru.aaromanov1985.botonator.simplebot.conversation.node.Node;
 
 import java.util.Objects;
 
 public class Conversation {
-
-    private Logger LOG = LoggerFactory.getLogger(Conversation.class);
 
     private long id;
     private long lastRequest;
@@ -29,10 +25,6 @@ public class Conversation {
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public long getLastRequest() {
-        return lastRequest;
     }
 
     public void setLastRequest(long lastRequest) {
