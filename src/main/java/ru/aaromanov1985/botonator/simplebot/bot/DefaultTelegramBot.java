@@ -36,8 +36,6 @@ public class DefaultTelegramBot extends TelegramLongPollingBot implements Bot {
     private final static Logger LOG = LoggerFactory.getLogger(DefaultTelegramBot.class);
     private final static String START = "/start";
     private final static String CANCEL = "/cancel";
-    private final static String I_DONT_KNOW = "Я ничего не понимаю";
-    private final static boolean ADD_NEW_LINE = true;
 
     private String token;
     private String name;
@@ -83,8 +81,6 @@ public class DefaultTelegramBot extends TelegramLongPollingBot implements Bot {
                 startConversation(chat_id, message_text);
             } else if (isCancel(message_text)) {
                 endConversation(chat_id);
-            } else if (isIDontKnow(message_text)) {
-                sendCommerce(chat_id);
             } else {
                 continueConversation(chat_id, message_text);
             }
@@ -177,9 +173,6 @@ public class DefaultTelegramBot extends TelegramLongPollingBot implements Bot {
                 row.add(variant);
                 rows.add(row);
             }
-            KeyboardRow row = new KeyboardRow();
-            row.add(I_DONT_KNOW);
-            rows.add(row);
         }
         return rows;
     }
@@ -258,10 +251,6 @@ public class DefaultTelegramBot extends TelegramLongPollingBot implements Bot {
 
     private boolean isCancel(final String message) {
         return StringUtils.isNotEmpty(message) && CANCEL.equals(message);
-    }
-
-    private boolean isIDontKnow(final String message) {
-        return StringUtils.isNotEmpty(message) && I_DONT_KNOW.equals(message);
     }
 
     @Override
