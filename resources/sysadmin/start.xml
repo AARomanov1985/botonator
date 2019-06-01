@@ -33,11 +33,15 @@
         <variants>
             <variant>
                 <value>Да</value>
-                <target>node01</target><e><en></en></e>
+                <target>node01</target>
             </variant>
             <variant>
                 <value>Нет</value>
                 <target>node02</target>
+            </variant>
+            <variant>
+                <value>Я ничего не понимаю</value>
+                <target>endNode</target>
             </variant>
         </variants>
     </node>
@@ -58,6 +62,10 @@
                 <value>Нет</value>
                 <target>node06</target>
             </variant>
+            <variant>
+                <value>Я ничего не понимаю</value>
+                <target>endNode</target>
+            </variant>
         </variants>
     </node>
     <node>
@@ -77,6 +85,10 @@
                 <value>Нет</value>
                 <target>node04</target>
             </variant>
+            <variant>
+                <value>Я ничего не понимаю</value>
+                <target>endNode</target>
+            </variant>
         </variants>
     </node>
     <node>
@@ -94,6 +106,10 @@
             </variant>
             <variant>
                 <value>Нет</value>
+                <target>endNode</target>
+            </variant>
+            <variant>
+                <value>Я ничего не понимаю</value>
                 <target>endNode</target>
             </variant>
         </variants>
@@ -118,6 +134,10 @@
                 <value>Нет</value>
                 <target>endNode</target>
             </variant>
+            <variant>
+                <value>Я ничего не понимаю</value>
+                <target>endNode</target>
+            </variant>
         </variants>
     </node>
     <node>
@@ -140,6 +160,10 @@
                 <value>Нет</value>
                 <target>endNode</target>
             </variant>
+            <variant>
+                <value>Я ничего не понимаю</value>
+                <target>endNode</target>
+            </variant>
         </variants>
     </node>
     <node>
@@ -157,6 +181,10 @@
             </variant>
             <variant>
                 <value>Нет</value>
+                <target>endNode</target>
+            </variant>
+            <variant>
+                <value>Я ничего не понимаю</value>
                 <target>endNode</target>
             </variant>
         </variants>
