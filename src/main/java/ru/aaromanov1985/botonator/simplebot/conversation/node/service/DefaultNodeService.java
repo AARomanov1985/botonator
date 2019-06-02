@@ -32,7 +32,7 @@ public class DefaultNodeService implements NodeService {
     private static final String SUCCESS_NODE = "successNode";
 
     @Override
-    public void buildNodes(final String path){
+    public void buildNodes(){
         nodes = nodeBuilder.buildNodes(path);
     }
 

@@ -53,7 +53,7 @@ public class DefaultTelegramBot extends TelegramLongPollingBot implements Bot {
 
     @Override
     public void execute() {
-        nodeService.buildNodes(path);
+        nodeService.buildNodes();
 
         ApiContextInitializer.init();
         TelegramBotsApi botsApi = new TelegramBotsApi();
@@ -67,7 +67,7 @@ public class DefaultTelegramBot extends TelegramLongPollingBot implements Bot {
 
     @Override
     public void onUpdateReceived(final Update update) {
-        nodeService.buildNodes(path);
+        nodeService.buildNodes();
 
         LOG.info("request received");
         // We check if the update has a message and the message has text
@@ -188,42 +188,34 @@ public class DefaultTelegramBot extends TelegramLongPollingBot implements Bot {
     }
 
     private void sendTextMessage(final Answer answer, final ReplyKeyboard keyboard) {
-        executorService.submit(new Runnable() {
-
-            @Override
-            public void run() {
-                LOG.debug("Send message {} for chat {}", answer.getMessage(), answer.getChatId());
-                SendMessage message = new SendMessage() // Create a message object object
-                    .setChatId(answer.getChatId())
-                    .setParseMode(ParseMode.HTML)
-                    .setReplyMarkup(keyboard)
-                    .setText(answer.getMessage());
-                try {
-                    execute(message); // Sending our message object to user
-                } catch (TelegramApiException e) {
-                    LOG.error(e.getMessage(), e);
-                }
+        executorService.submit(() -> {
+            LOG.debug("Send message {} for chat {}", answer.getMessage(), answer.getChatId());
+            SendMessage message = new SendMessage() // Create a message object object
+                .setChatId(answer.getChatId())
+                .setParseMode(ParseMode.HTML)
+                .setReplyMarkup(keyboard)
+                .setText(answer.getMessage());
+            try {
+                execute(message); // Sending our message object to user
+            } catch (TelegramApiException e) {
+                LOG.error(e.getMessage(), e);
             }
         });
     }
 
     private void sendImage(final Answer answer, final ReplyKeyboard keyboard) {
-        executorService.submit(new Runnable() {
-
-            @Override
-            public void run() {
-                LOG.debug("Send message {} for chat {}", answer.getMessage(), answer.getChatId());
-                SendPhoto message = new SendPhoto() // Create a message object object
-                    .setChatId(answer.getChatId())
-                    .setPhoto(answer.getImage())
-                    .setParseMode(ParseMode.HTML)
-                    .setReplyMarkup(keyboard)
-                    .setCaption(answer.getMessage());
-                try {
-                    execute(message); // Sending our message object to user
-                } catch (TelegramApiException e) {
-                    LOG.error(e.getMessage(), e);
-                }
+        executorService.submit(() -> {
+            LOG.debug("Send message {} for chat {}", answer.getMessage(), answer.getChatId());
+            SendPhoto message = new SendPhoto() // Create a message object object
+                .setChatId(answer.getChatId())
+                .setPhoto(answer.getImage())
+                .setParseMode(ParseMode.HTML)
+                .setReplyMarkup(keyboard)
+                .setCaption(answer.getMessage());
+            try {
+                execute(message); // Sending our message object to user
+            } catch (TelegramApiException e) {
+                LOG.error(e.getMessage(), e);
             }
         });
     }
@@ -269,13 +261,5 @@ public class DefaultTelegramBot extends TelegramLongPollingBot implements Bot {
 
     public void setName(final String name) {
         this.name = name;
-    }
-
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(final String path) {
-        this.path = path;
     }
 }

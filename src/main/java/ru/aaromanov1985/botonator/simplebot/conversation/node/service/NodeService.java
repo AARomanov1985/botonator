@@ -3,11 +3,9 @@ package ru.aaromanov1985.botonator.simplebot.conversation.node.service;
 import ru.aaromanov1985.botonator.simplebot.conversation.node.MessageType;
 import ru.aaromanov1985.botonator.simplebot.conversation.node.Node;
 
-import java.io.File;
-
 public interface NodeService {
 
-    void buildNodes(final String path);
+    void buildNodes();
 
     Node getStartNode();
 

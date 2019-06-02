@@ -32,15 +32,15 @@
         <image>https://cdn.pixabay.com/photo/2014/04/02/10/47/computer-304585_960_720.png</image>
         <variants>
             <variant>
-                <value>Да</value>
+                <value>yes</value>
                 <target>node01</target>
             </variant>
             <variant>
-                <value>Нет</value>
+                <value>no</value>
                 <target>node02</target>
             </variant>
             <variant>
-                <value>Я ничего не понимаю</value>
+                <value>I_dont_know</value>
                 <target>endNode</target>
             </variant>
         </variants>
@@ -55,15 +55,15 @@
         </messages>
         <variants>
             <variant>
-                <value>Да</value>
+                <value>yes</value>
                 <target>endNode</target>
             </variant>
             <variant>
-                <value>Нет</value>
+                <value>no</value>
                 <target>node06</target>
             </variant>
             <variant>
-                <value>Я ничего не понимаю</value>
+                <value>I_dont_know</value>
                 <target>endNode</target>
             </variant>
         </variants>
@@ -78,15 +78,15 @@
         </messages>
         <variants>
             <variant>
-                <value>Да</value>
+                <value>yes</value>
                 <target>node03</target>
             </variant>
             <variant>
-                <value>Нет</value>
+                <value>no</value>
                 <target>node04</target>
             </variant>
             <variant>
-                <value>Я ничего не понимаю</value>
+                <value>I_dont_know</value>
                 <target>endNode</target>
             </variant>
         </variants>
@@ -101,15 +101,15 @@
         </messages>
         <variants>
             <variant>
-                <value>Да</value>
+                <value>yes</value>
                 <target>node05</target>
             </variant>
             <variant>
-                <value>Нет</value>
+                <value>no</value>
                 <target>endNode</target>
             </variant>
             <variant>
-                <value>Я ничего не понимаю</value>
+                <value>I_dont_know</value>
                 <target>endNode</target>
             </variant>
         </variants>
@@ -127,15 +127,15 @@
         </messages>
         <variants>
             <variant>
-                <value>Да</value>
+                <value>yes</value>
                 <target>successNode</target>
             </variant>
             <variant>
-                <value>Нет</value>
+                <value>no</value>
                 <target>endNode</target>
             </variant>
             <variant>
-                <value>Я ничего не понимаю</value>
+                <value>I_dont_know</value>
                 <target>endNode</target>
             </variant>
         </variants>
@@ -153,15 +153,15 @@
         </messages>
         <variants>
             <variant>
-                <value>Да</value>
+                <value>yes</value>
                 <target>successNode</target>
             </variant>
             <variant>
-                <value>Нет</value>
+                <value>no</value>
                 <target>endNode</target>
             </variant>
             <variant>
-                <value>Я ничего не понимаю</value>
+                <value>I_dont_know</value>
                 <target>endNode</target>
             </variant>
         </variants>
@@ -176,15 +176,15 @@
         </messages>
         <variants>
             <variant>
-                <value>Да</value>
+                <value>yes</value>
                 <target>endNode</target>
             </variant>
             <variant>
-                <value>Нет</value>
+                <value>no</value>
                 <target>endNode</target>
             </variant>
             <variant>
-                <value>Я ничего не понимаю</value>
+                <value>I_dont_know</value>
                 <target>endNode</target>
             </variant>
         </variants>
