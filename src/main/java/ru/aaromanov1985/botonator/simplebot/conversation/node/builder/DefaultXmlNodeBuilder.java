@@ -50,11 +50,11 @@ public class DefaultXmlNodeBuilder implements NodeBuilder {
             for (Node node : nodes.getNodes()) {
                 List<Message> messages = node.getMessages();
                 if (CollectionUtils.isNotEmpty(messages)) {
-                    messages.forEach(m -> m.setValue(getTextMessage(path, m.getValue())));
+                    messages.forEach(m -> m.setValue(getTextMessage(path, m.getValue().toLowerCase())));
                 }
                 List<Variant> variants = node.getVariants();
                 if (CollectionUtils.isNotEmpty(variants)) {
-                    variants.forEach(v -> v.setValue(getTextMessage(path, v.getValue())));
+                    variants.forEach(v -> v.setValue(getTextMessage(path, v.getValue().toLowerCase())));
                 }
             }
         }
