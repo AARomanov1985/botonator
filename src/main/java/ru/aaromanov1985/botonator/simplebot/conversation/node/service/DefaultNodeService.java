@@ -112,7 +112,7 @@ public class DefaultNodeService implements NodeService {
 
     @Override
     public boolean isEndNode(final Node node){
-        return node != null && END_NODE.equals(node.getCode());
+        return node != null && END_NODE.equals(node.getCode()) || SUCCESS_NODE.equals(node.getCode());
     }
 
     public void setPath(String path) {

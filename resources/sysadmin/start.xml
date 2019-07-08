@@ -33,11 +33,11 @@
         <variants>
             <variant>
                 <value>yes</value>
-                <target>node01</target>
+                <target>monitor_01a</target>
             </variant>
             <variant>
                 <value>no</value>
-                <target>node02</target>
+                <target>power_0</target>
             </variant>
             <variant>
                 <value>i_dont_know</value>
@@ -47,20 +47,20 @@
     </node>
     <node>
         <messageType>text</messageType>
-        <code>node01</code>
+        <code>monitor_01a</code>
         <messages>
             <message>
-                <value>Monitor_01</value>
+                <value>monitor_01a</value>
             </message>
         </messages>
         <variants>
             <variant>
                 <value>yes</value>
-                <target>//TODO</target>
+                <target>new_build_01</target>
             </variant>
             <variant>
                 <value>no</value>
-                <target>node06</target>
+                <target>system_01</target>
             </variant>
             <variant>
                 <value>i_dont_know</value>
@@ -70,144 +70,36 @@
     </node>
     <node>
         <messageType>text</messageType>
-        <code>node02</code>
+        <code>new_build_01</code>
         <messages>
             <message>
-                <value>Monitor_02</value>
+                <value>new_build_01</value>
             </message>
         </messages>
-        <variants>
-            <variant>
-                <value>yes</value>
-                <target>node03</target>
-            </variant>
-            <variant>
-                <value>no</value>
-                <target>node04</target>
-            </variant>
-            <variant>
-                <value>i_dont_know</value>
-                <target>endNode</target>
-            </variant>
-        </variants>
-    </node>
-    <node>
-        <messageType>text</messageType>
-        <code>node03</code>
-        <messages>
-            <message>
-                <value>Power_01</value>
-            </message>
-        </messages>
-        <variants>
-            <variant>
-                <value>yes</value>
-                <target>node05</target>
-            </variant>
-            <variant>
-                <value>no</value>
-                <target>endNode</target>
-            </variant>
-            <variant>
-                <value>i_dont_know</value>
-                <target>endNode</target>
-            </variant>
-        </variants>
-    </node>
-    <node>
-        <messageType>text</messageType>
-        <code>node04</code>
-        <messages>
-            <message>
-                <value>power_02</value>
-            </message>
-            <message>
-                <value>isitwork</value>
-            </message>
-        </messages>
-        <variants>
-            <variant>
-                <value>yes</value>
-                <target>successNode</target>
-            </variant>
-            <variant>
-                <value>no</value>
-                <target>endNode</target>
-            </variant>
-            <variant>
-                <value>i_dont_know</value>
-                <target>endNode</target>
-            </variant>
-        </variants>
-    </node>
-    <node>
-        <messageType>text</messageType>
-        <code>node05</code>
-        <messages>
-            <message>
-                <value>power_03</value>
-            </message>
-            <message>
-                <value>isitwork</value>
-            </message>
-        </messages>
-        <variants>
-            <variant>
-                <value>yes</value>
-                <target>successNode</target>
-            </variant>
-            <variant>
-                <value>no</value>
-                <target>endNode</target>
-            </variant>
-            <variant>
-                <value>i_dont_know</value>
-                <target>endNode</target>
-            </variant>
-        </variants>
-    </node>
-    <node>
-        <messageType>text</messageType>
-        <code>node06</code>
-        <messages>
-            <message>
-                <value>monitor_03</value>
-            </message>
-        </messages>
+        <!-- TODO -->
         <variants>
             <variant>
                 <value>yes</value>
                 <target>endNode</target>
             </variant>
-            <variant>
-                <value>no</value>
-                <target>endNode</target>
-            </variant>
-            <variant>
-                <value>i_dont_know</value>
-                <target>endNode</target>
-            </variant>
         </variants>
     </node>
     <node>
         <messageType>text</messageType>
-        <code>node07</code>
-        <type>end</type>
+        <code>system_01</code>
         <messages>
             <message>
-                <value>monitor_04</value>
-            </message>
-            <message>
-                <value>isitwork</value>
+                <value>system_01</value>
             </message>
         </messages>
         <variants>
             <variant>
                 <value>yes</value>
-                <target>success</target>
+                <target>monitor_01</target>
             </variant>
             <variant>
                 <value>no</value>
+                <!-- TODO -->
                 <target>endNode</target>
             </variant>
             <variant>
@@ -218,7 +110,30 @@
     </node>
     <node>
         <messageType>text</messageType>
-        <code>node08</code>
+        <code>monitor_01</code>
+        <messages>
+            <message>
+                <value>monitor_01</value>
+            </message>
+        </messages>
+        <variants>
+            <variant>
+                <value>yes</value>
+                <target>power_04</target>
+            </variant>
+            <variant>
+                <value>no</value>
+                <target>monitor_03</target>
+            </variant>
+            <variant>
+                <value>i_dont_know</value>
+                <target>endNode</target>
+            </variant>
+        </variants>
+    </node>
+    <node>
+        <messageType>text</messageType>
+        <code>power_04</code>
         <messages>
             <message>
                 <value>power_04</value>
@@ -231,6 +146,7 @@
             </variant>
             <variant>
                 <value>no</value>
+                <!-- TODO -->
                 <target>endNode</target>
             </variant>
             <variant>
@@ -246,14 +162,151 @@
             <message>
                 <value>power_05</value>
             </message>
+        </messages>
+        <variants>
+            <variant>
+                <value>yes</value>
+                <target>successNode</target>
+            </variant>
+            <variant>
+                <value>no</value>
+                <target>endNode</target>
+            </variant>
+            <variant>
+                <value>i_dont_know</value>
+                <target>endNode</target>
+            </variant>
+        </variants>
+    </node>
+    <node>
+        <messageType>text</messageType>
+        <code>monitor_03</code>
+        <messages>
             <message>
-                <value>isitwork</value>
+                <value>monitor_03</value>
             </message>
         </messages>
         <variants>
             <variant>
                 <value>yes</value>
-                <target>success</target>
+                <!-- TODO -->
+                <target>endNode</target>
+            </variant>
+            <variant>
+                <value>no</value>
+                <target>monitor_04</target>
+            </variant>
+            <variant>
+                <value>i_dont_know</value>
+                <target>endNode</target>
+            </variant>
+        </variants>
+    </node>
+    <node>
+        <messageType>text</messageType>
+        <code>monitor_04</code>
+        <messages>
+            <message>
+                <value>monitor_04</value>
+            </message>
+        </messages>
+        <variants>
+            <variant>
+                <value>yes</value>
+                <target>successNode</target>
+            </variant>
+            <variant>
+                <value>no</value>
+                <target>endNode</target>
+            </variant>
+            <variant>
+                <value>i_dont_know</value>
+                <target>endNode</target>
+            </variant>
+        </variants>
+    </node>
+    <node>
+        <messageType>text</messageType>
+        <code>power_0</code>
+        <messages>
+            <message>
+                <value>power_0</value>
+            </message>
+        </messages>
+        <variants>
+            <variant>
+                <value>yes</value>
+                <target>power_01</target>
+            </variant>
+            <variant>
+                <value>no</value>
+                <target>power_02</target>
+            </variant>
+            <variant>
+                <value>i_dont_know</value>
+                <target>endNode</target>
+            </variant>
+        </variants>
+    </node>
+    <node>
+        <messageType>text</messageType>
+        <code>power_02</code>
+        <messages>
+            <message>
+                <value>power_02</value>
+            </message>
+        </messages>
+        <variants>
+            <variant>
+                <value>yes</value>
+                <target>successNode</target>
+            </variant>
+            <variant>
+                <value>no</value>
+                <target>endNode</target>
+            </variant>
+            <variant>
+                <value>i_dont_know</value>
+                <target>endNode</target>
+            </variant>
+        </variants>
+    </node>
+    <node>
+        <messageType>text</messageType>
+        <code>power_01</code>
+        <messages>
+            <message>
+                <value>power_01</value>
+            </message>
+        </messages>
+        <variants>
+            <variant>
+                <value>yes</value>
+                <!--TODO-->
+                <target>endNode</target>
+            </variant>
+            <variant>
+                <value>no</value>
+                <target>power_03</target>
+            </variant>
+            <variant>
+                <value>i_dont_know</value>
+                <target>endNode</target>
+            </variant>
+        </variants>
+    </node>
+    <node>
+        <messageType>text</messageType>
+        <code>power_03</code>
+        <messages>
+            <message>
+                <value>power_03</value>
+            </message>
+        </messages>
+        <variants>
+            <variant>
+                <value>yes</value>
+                <target>successNode</target>
             </variant>
             <variant>
                 <value>no</value>
